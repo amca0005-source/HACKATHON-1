@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rojgar AI — Your Personal Career Navigator</title>
+  <meta name="description" content="Rojgar AI turns your interests and skills into a clear career roadmap — AI career discovery, skill gap analysis, and opportunities in one student-friendly platform." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%23b45309'/><stop offset='1' stop-color='%23d97706'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23g)'/><text x='50' y='68' font-size='50' font-family='Arial' font-weight='bold' fill='white' text-anchor='middle'>R</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- 3D particle background -->
+  <canvas id="particle-canvas"></canvas>
+
+  <!-- ==================== APP SHELL ==================== -->
+  <div class="app" id="app">
+
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar" id="sidebar">
+      <div class="logo">
+        <span class="logo-mark">R</span>
+        <span class="logo-text">Rojgar<em>AI</em></span>
+      </div>
+
+      <nav class="side-nav">
+        <a href="#" class="nav-item active" data-view="dashboard">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+          <span>Dashboard</span>
+        </a>
+        <a href="#" class="nav-item" data-view="explore">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg>
+          <span>Explore Careers</span>
+        </a>
+        <a href="#" class="nav-item" data-view="skills">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
+          <span>My Skills</span>
+        </a>
+        <a href="#" class="nav-item" data-view="jobs">
+          <svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/></svg>
+          <span>Job Board</span>
+        </a>
+        <a href="#" class="nav-item" data-view="learning">
+          <svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19a2 2 0 0 1 2-2h13"/></svg>
+          <span>Learning</span>
+        </a>
+        <a href="#" class="nav-item" data-view="network">
+          <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.5 2.9-5.5 6.5-5.5s6.5 2 6.5 5.5"/><circle cx="17.5" cy="9" r="2.5"/><path d="M16 14.6c2.9.3 5.5 2 5.5 5.4"/></svg>
+          <span>Networking</span>
+        </a>
+        <a href="#" class="nav-item" data-view="chat">
+          <svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-8 8H4l2.3-2.9A8 8 0 1 1 21 12z"/></svg>
+          <span>Chat</span>
+        </a>
+      </nav>
+
+      <div class="upgrade-card">
+        <div class="upgrade-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M5 12v8h14v-8M12 8v12M12 8s-1.5-4-4-4-2.5 4 0 4h4zM12 8s1.5-4 4-4 2.5 4 0 4h-4z"/></svg>
+        </div>
+        <h4>Upgrade to Pro</h4>
+        <p>Get 1 month free and unlock all Pro features</p>
+        <div class="stars">
+          <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.2 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+          <span>4.9 out of 5</span>
+        </div>
+        <a href="#" class="upgrade-btn" data-action="upgrade">Upgrade Now</a>
+      </div>
+
+      <div class="side-bottom">
+        <a href="#" class="nav-item" data-action="support">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.3a2.6 2.6 0 1 1 3.7 2.4c-.8.3-1.2 1-1.2 1.9v.6"/><circle cx="12" cy="17" r="0.5" fill="currentColor"/></svg>
+          <span>Support Center</span>
+        </a>
+        <a href="#" class="nav-item" data-action="settings">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1-1.55 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.55-1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34h0a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55h0a1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87v0a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1z"/></svg>
+          <span>Settings</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ============ MAIN ============ -->
+    <div class="main">
+
+      <!-- Topbar -->
+      <header class="topbar">
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+
+        <div class="search">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input type="text" id="globalSearch" placeholder="Search" aria-label="Search" />
+        </div>
+
+        <button class="ai-assistant" id="aiAssistantBtn" data-action="ai">
+          <span class="ai-pill">
+            <svg viewBox="0 0 24 24"><path d="M12 2l1.8 5.7L19.5 9l-5.7 1.8L12 16.5l-1.8-5.7L4.5 9l5.7-1.3z"/><path d="M19 15l.9 2.6 2.6.9-2.6.9L19 22l-.9-2.6-2.6-.9 2.6-.9z"/></svg>
+            AI Assistant
+          </span>
+        </button>
+
+        <div class="top-icons">
+          <button class="icon-btn" id="settingsBtn" data-action="settings" aria-label="Settings">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1-1.55 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.55-1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34h0a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55h0a1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87v0a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1z"/></svg>
+          </button>
+          <button class="icon-btn notif" id="notifBtn" aria-label="Notifications">
+            <svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M13.7 20a2 2 0 0 1-3.4 0"/></svg>
+            <span class="dot"></span>
+          </button>
+          <div class="dropdown" id="profileDrop">
+            <button class="avatar-btn" id="profileBtn" aria-label="Profile">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            </button>
+            <div class="drop-menu">
+              <div class="drop-user">
+                <strong>Aarav Sharma</strong>
+                <span>aarav@rojgar.ai</span>
+              </div>
+              <a href="#" data-action="editprofile">Edit Profile</a>
+              <a href="#" data-action="profile">My Profile</a>
+              <a href="#" data-action="settings">Account Settings</a>
+              <a href="#" data-action="billing">Billing</a>
+              <hr />
+              <a href="#" data-action="logout" class="danger">Log Out</a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- ==================== VIEW: DASHBOARD ==================== -->
+      <div class="content view active" id="view-dashboard">
+
+        <div class="col-main">
+
+          <!-- Stat cards -->
+          <section class="stats">
+            <div class="card stat-card pop" style="--d:.05s">
+              <div class="stat-head">
+                <span class="stat-label">Career Paths Explored</span>
+                <a href="#" class="details-link">Details
+                  <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+                </a>
+              </div>
+              <div class="stat-body">
+                <div class="stat-num">
+                  <span class="num" id="pathsNum" data-count="24">0</span>
+                  <span class="trend up">+8%</span>
+                </div>
+                <svg class="sparkline" viewBox="0 0 120 44" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="sparkfill" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.35"/>
+                      <stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/>
+                    </linearGradient>
+                  </defs>
+                  <path class="spark-area" d="M0,34 L15,30 L30,33 L45,22 L60,26 L75,15 L90,19 L105,9 L120,13 L120,44 L0,44 Z" fill="url(#sparkfill)"/>
+                  <path class="spark-line" d="M0,34 L15,30 L30,33 L45,22 L60,26 L75,15 L90,19 L105,9 L120,13" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="105" cy="9" r="3.5" fill="#f59e0b" stroke="#fff" stroke-width="2"/>
+                </svg>
+              </div>
+              <p class="stat-sub">paths discovered this semester</p>
+            </div>
+
+            <div class="card stat-card pop" style="--d:.15s">
+              <div class="stat-head">
+                <span class="stat-label">Skill Tracker</span>
+                <a href="#" class="details-link">Details
+                  <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+                </a>
+              </div>
+              <div class="stat-body">
+                <div class="stat-num">
+                  <span class="num" id="hoursNum" data-count="46">0</span><span class="unit">h</span>
+                  <span class="trend up">+12%</span>
+                </div>
+                <p class="stat-sub">hours spent on upskilling</p>
+              </div>
+              <div class="bars">
+                <div class="bar-row">
+                  <span class="bar-label">Design</span>
+                  <div class="bar"><div class="bar-fill green" style="--w:62%"></div></div>
+                  <span class="bar-pct">62%</span>
+                </div>
+                <div class="bar-row">
+                  <span class="bar-label">Management</span>
+                  <div class="bar"><div class="bar-fill purple" style="--w:15%"></div></div>
+                  <span class="bar-pct">15%</span>
+                </div>
+                <div class="bar-row">
+                  <span class="bar-label">Coding</span>
+                  <div class="bar"><div class="bar-fill yellow" style="--w:28%"></div></div>
+                  <span class="bar-pct">28%</span>
+                </div>
+              </div>
+              <a href="#" class="more-link" data-action="skills">+ view 2 more skills</a>
+            </div>
+          </section>
+
+          <!-- Job feed + AI tools -->
+          <section class="tools">
+
+            <!-- Job feed (dark card) -->
+            <div class="card job-feed pop" style="--d:.25s">
+              <div class="job-head">
+                <h3>Job Feed</h3>
+                <a href="#" class="details-link light" data-action="jobs">view all
+                  <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+                </a>
+              </div>
+
+              <a href="#" class="job-card" data-action="apply">
+                <div class="job-logo g">R</div>
+                <div class="job-info">
+                  <h4>Senior UX Designer</h4>
+                  <p>Google · Full-time · Remote</p>
+                </div>
+                <div class="job-salary">$72–86k/yr</div>
+                <svg class="chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+              </a>
+              <div class="job-progress"><div class="job-progress-fill" style="width:70%"></div></div>
+
+              <a href="#" class="job-card" data-action="apply">
+                <div class="job-logo in">P</div>
+                <div class="job-info">
+                  <h4>Product Analyst</h4>
+                  <p>Freshworks · Internship</p>
+                </div>
+                <div class="job-salary">$45–60k/yr</div>
+                <svg class="chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+              </a>
+
+              <p class="job-hint">
+                <svg viewBox="0 0 24 24"><path d="M9 11.5a5.5 5.5 0 0 1 11 0V17a4 4 0 0 1-4 4h-3a4 4 0 0 1-4-4z"/><path d="M9 11.5H7a5 5 0 0 0 5 5"/></svg>
+                Tap on card to apply
+              </p>
+            </div>
+
+            <!-- Mock interview -->
+            <div class="card tool-card pop" style="--d:.35s">
+              <div class="tool-top">
+                <div class="tool-avatars">
+                  <span class="mini-avatar a">S</span>
+                  <span class="mini-avatar b">A</span>
+                  <span class="mini-avatar c">R</span>
+                  <span class="ai-badge">AI</span>
+                </div>
+                <svg class="dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg>
+              </div>
+              <div class="offer-tag">
+                <svg viewBox="0 0 24 24"><path d="M20 12v8H4v-8M2 7h20v5H2zM12 7v13M12 7s-1.5-4-4-4-2.5 4 0 4h4zM12 7s1.5-4 4-4 2.5 4 0 4h-4z"/></svg>
+                OFFER
+              </div>
+              <h3>Mock Interview tool</h3>
+              <p>Practice to handle interviews easily with no stress</p>
+              <div class="tool-actions">
+                <a href="#" class="btn-outline" data-action="schedule">
+                  <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
+                  Schedule
+                </a>
+                <a href="#" class="tool-arrow" data-action="interview">
+                  <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </a>
+              </div>
+            </div>
+
+            <!-- Upload CV -->
+            <div class="card tool-card upload-card pop" style="--d:.45s">
+              <div class="tool-top">
+                <h3>Upload your CV</h3>
+                <svg class="dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg>
+              </div>
+              <p class="upload-sub">We will review it and provide recommendations</p>
+              <div class="dropzone" id="dropzone">
+                <svg viewBox="0 0 24 24"><path d="M12 16V4M6 10l6-6 6 6"/><path d="M4 20h16"/></svg>
+                <span>Drag &amp; Drop file here</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Course recommendations -->
+          <section class="courses">
+            <div class="section-head-row">
+              <h3>Course Recommendations</h3>
+              <a href="#" class="details-link" data-action="learning">View all</a>
+            </div>
+            <div class="course-grid">
+
+              <a href="#" class="course-card pop" style="--d:.55s" data-action="course">
+                <div class="course-thumb thumb-colorful">
+                  <span class="shape s1"></span><span class="shape s2"></span><span class="shape s3"></span><span class="shape s4"></span>
+                </div>
+                <div class="course-body">
+                  <div class="course-title-row">
+                    <h4>UX Design</h4>
+                    <svg class="dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg>
+                  </div>
+                  <p>Advanced prototyping techniques</p>
+                  <div class="course-tags"><span>#design</span><span>#ux</span></div>
+                </div>
+              </a>
+
+              <a href="#" class="course-card pop" style="--d:.65s" data-action="course">
+                <div class="course-thumb thumb-purple">
+                  <span class="diamond"></span>
+                </div>
+                <div class="course-body">
+                  <div class="course-title-row">
+                    <h4>Product Analytics</h4>
+                    <svg class="dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg>
+                  </div>
+                  <p>Design Interfaces that Engage</p>
+                  <div class="course-tags"><span>#design</span><span>#uxdesign</span></div>
+                </div>
+              </a>
+
+              <a href="#" class="course-card pop" style="--d:.75s" data-action="course">
+                <div class="course-thumb thumb-yellow">
+                  <span class="gem"></span>
+                </div>
+                <div class="course-body">
+                  <div class="course-title-row">
+                    <h4>Python Basics</h4>
+                    <svg class="dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg>
+                  </div>
+                  <p>Unleash your coding power</p>
+                  <div class="course-tags"><span>#coding</span><span>#python</span></div>
+                </div>
+              </a>
+
+            </div>
+          </section>
+        </div>
+
+        <!-- ============ RIGHT RAIL ============ -->
+        <aside class="rail">
+
+          <!-- Calendar -->
+          <div class="card calendar pop" style="--d:.2s">
+            <div class="cal-head">
+              <button class="cal-chev" id="calPrev" aria-label="Previous month"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+              <span class="cal-month" id="calMonth">Jun</span>
+              <button class="cal-chev" id="calNext" aria-label="Next month"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+            </div>
+            <div class="cal-grid cal-days">
+              <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+            </div>
+            <div class="cal-grid" id="calGrid"></div>
+            <p class="cal-events" id="calEvents"></p>
+          </div>
+
+          <!-- Upcoming lessons -->
+          <div class="card upcoming pop" style="--d:.3s">
+            <div class="up-head">
+              <h3>Upcoming Lessons</h3>
+              <a href="#" class="details-link" data-action="learning">view all</a>
+            </div>
+            <div class="lesson">
+              <div class="lesson-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.2 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+              </div>
+              <div class="lesson-info">
+                <h4>UX Design</h4>
+                <p>Real-world project-based learning</p>
+                <div class="bar slim"><div class="bar-fill green" style="--w:62%"></div></div>
+                <div class="lesson-meta"><span>12 of 20</span><span>62%</span></div>
+              </div>
+              <svg class="dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg>
+            </div>
+            <div class="lesson-actions">
+              <a href="#" class="btn-dark" data-action="join">Join lesson</a>
+              <button class="round-btn" data-action="video" aria-label="Video call"><svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5zM14 5H3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2z"/></svg></button>
+              <button class="round-btn" data-action="chat" aria-label="Chat"><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-8 8H4l2.3-2.9A8 8 0 1 1 21 12z"/></svg></button>
+            </div>
+          </div>
+
+          <!-- Community -->
+          <div class="card community pop" style="--d:.4s">
+            <div class="comm-num">1350<span>+</span></div>
+            <p>Members in our community</p>
+            <div class="comm-row">
+              <div class="avatar-stack">
+                <span class="stack-avatar a">A</span>
+                <span class="stack-avatar b">K</span>
+                <span class="stack-avatar c">M</span>
+                <span class="stack-avatar d">+9</span>
+              </div>
+              <a href="#" class="btn-outline sm" data-action="join">Join</a>
+            </div>
+          </div>
+
+        </aside>
+      </div>
+
+      <!-- ==================== VIEW: EXPLORE CAREERS ==================== -->
+      <div class="content view" id="view-explore">
+        <div class="col-main">
+          <section class="explore-head pop">
+            <div>
+              <h2>Explore Careers</h2>
+              <p id="exploreHeadText">AI-matched paths based on your interests, hobbies, and skills.</p>
+            </div>
+            <a href="#" class="btn-primary" data-action="ai">✨ Refine with AI</a>
+          </section>
+          <div class="card-grid-3" id="careerGrid">
+            <article class="card career-card pop" style="--d:.1s">
+              <div class="career-top">
+                <div class="career-logo c1">UX</div>
+                <span class="match">94% match</span>
+              </div>
+              <h3>UX Designer</h3>
+              <p>Design intuitive digital experiences used by millions.</p>
+              <div class="career-meta"><span>$72–96k</span><span>Growing</span></div>
+              <div class="bar slim"><div class="bar-fill green" style="--w:94%"></div></div>
+              <a href="#" class="btn-dark full" data-action="roadmap">View Roadmap</a>
+            </article>
+            <article class="card career-card pop" style="--d:.2s">
+              <div class="career-top">
+                <div class="career-logo c2">PA</div>
+                <span class="match">88% match</span>
+              </div>
+              <h3>Product Analyst</h3>
+              <p>Turn data into decisions that shape real products.</p>
+              <div class="career-meta"><span>$65–85k</span><span>High demand</span></div>
+              <div class="bar slim"><div class="bar-fill purple" style="--w:88%"></div></div>
+              <a href="#" class="btn-dark full" data-action="roadmap">View Roadmap</a>
+            </article>
+            <article class="card career-card pop" style="--d:.3s">
+              <div class="career-top">
+                <div class="career-logo c3">FE</div>
+                <span class="match">81% match</span>
+              </div>
+              <h3>Front-end Developer</h3>
+              <p>Build the interfaces you design, end to end.</p>
+              <div class="career-meta"><span>$70–90k</span><span>Remote friendly</span></div>
+              <div class="bar slim"><div class="bar-fill yellow" style="--w:81%"></div></div>
+              <a href="#" class="btn-dark full" data-action="roadmap">View Roadmap</a>
+            </article>
+            <article class="card career-card pop" style="--d:.4s">
+              <div class="career-top">
+                <div class="career-logo c4">UI</div>
+                <span class="match">76% match</span>
+              </div>
+              <h3>UI Designer</h3>
+              <p>Craft pixel-perfect, beautiful visual systems.</p>
+              <div class="career-meta"><span>$60–80k</span><span>Creative</span></div>
+              <div class="bar slim"><div class="bar-fill green" style="--w:76%"></div></div>
+              <a href="#" class="btn-dark full" data-action="roadmap">View Roadmap</a>
+            </article>
+            <article class="card career-card pop" style="--d:.5s">
+              <div class="career-top">
+                <div class="career-logo c5">DA</div>
+                <span class="match">72% match</span>
+              </div>
+              <h3>Data Analyst</h3>
+              <p>Use your Python base to uncover insights.</p>
+              <div class="career-meta"><span>$68–88k</span><span>Future-proof</span></div>
+              <div class="bar slim"><div class="bar-fill purple" style="--w:72%"></div></div>
+              <a href="#" class="btn-dark full" data-action="roadmap">View Roadmap</a>
+            </article>
+            <article class="card career-card pop" style="--d:.6s">
+              <div class="career-top">
+                <div class="career-logo c6">PM</div>
+                <span class="match">64% match</span>
+              </div>
+              <h3>Product Manager</h3>
+              <p>Lead products from idea to launch.</p>
+              <div class="career-meta"><span>$85–110k</span><span>Leadership</span></div>
+              <div class="bar slim"><div class="bar-fill yellow" style="--w:64%"></div></div>
+              <a href="#" class="btn-dark full" data-action="roadmap">View Roadmap</a>
+            </article>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== VIEW: MY SKILLS ==================== -->
+      <div class="content view" id="view-skills">
+        <div class="col-main">
+          <section class="explore-head pop">
+            <div>
+              <h2>My Skills</h2>
+              <p>Your verified skill profile — keep building to close the gap to <strong>UX Designer</strong>.</p>
+            </div>
+            <a href="#" class="btn-outline" data-action="addskill">+ Add Skill</a>
+          </section>
+          <div class="card-grid-3" id="skillGrid">
+            <article class="card skill-card pop" style="--d:.1s">
+              <div class="skill-top"><span class="skill-badge green">Advanced</span><span class="skill-cat">Design</span></div>
+              <h3>Figma &amp; Prototyping</h3>
+              <div class="bar slim"><div class="bar-fill green" style="--w:85%"></div></div>
+              <div class="skill-meta"><span>Level 7/10</span><span>+320 XP to next</span></div>
+            </article>
+            <article class="card skill-card pop" style="--d:.2s">
+              <div class="skill-top"><span class="skill-badge purple">Intermediate</span><span class="skill-cat">Design</span></div>
+              <h3>User Research</h3>
+              <div class="bar slim"><div class="bar-fill purple" style="--w:55%"></div></div>
+              <div class="skill-meta"><span>Level 5/10</span><span>+540 XP to next</span></div>
+            </article>
+            <article class="card skill-card pop" style="--d:.3s">
+              <div class="skill-top"><span class="skill-badge yellow">Beginner</span><span class="skill-cat">Coding</span></div>
+              <h3>Python</h3>
+              <div class="bar slim"><div class="bar-fill yellow" style="--w:30%"></div></div>
+              <div class="skill-meta"><span>Level 3/10</span><span>+800 XP to next</span></div>
+            </article>
+            <article class="card skill-card pop" style="--d:.4s">
+              <div class="skill-top"><span class="skill-badge yellow">Beginner</span><span class="skill-cat">Design</span></div>
+              <h3>HTML &amp; CSS</h3>
+              <div class="bar slim"><div class="bar-fill yellow" style="--w:35%"></div></div>
+              <div class="skill-meta"><span>Level 3/10</span><span>+760 XP to next</span></div>
+            </article>
+            <article class="card skill-card pop" style="--d:.5s">
+              <div class="skill-top"><span class="skill-badge purple">Intermediate</span><span class="skill-cat">Soft skills</span></div>
+              <h3>Communication</h3>
+              <div class="bar slim"><div class="bar-fill purple" style="--w:60%"></div></div>
+              <div class="skill-meta"><span>Level 6/10</span><span>+420 XP to next</span></div>
+            </article>
+            <article class="card skill-card pop" style="--d:.6s">
+              <div class="skill-top"><span class="skill-badge green">Advanced</span><span class="skill-cat">Soft skills</span></div>
+              <h3>Team Collaboration</h3>
+              <div class="bar slim"><div class="bar-fill green" style="--w:80%"></div></div>
+              <div class="skill-meta"><span>Level 8/10</span><span>+180 XP to next</span></div>
+            </article>
+          </div>
+
+          <div class="card gap-analysis pop" style="--d:.7s">
+            <h3>🎯 Skill Gap → UX Designer</h3>
+            <div class="gap-row"><span>Prototyping</span><div class="bar"><div class="bar-fill red" style="--w:30%"></div></div><span class="gap-pct">Gap 30%</span></div>
+            <div class="gap-row"><span>User Research</span><div class="bar"><div class="bar-fill red" style="--w:45%"></div></div><span class="gap-pct">Gap 45%</span></div>
+            <div class="gap-row"><span>Design Systems</span><div class="bar"><div class="bar-fill red" style="--w:60%"></div></div><span class="gap-pct">Gap 60%</span></div>
+            <p class="gap-note">Complete your roadmap to close these gaps in ~4 months.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== VIEW: JOB BOARD ==================== -->
+      <div class="content view" id="view-jobs">
+        <div class="col-main">
+          <section class="explore-head pop">
+            <div>
+              <h2>Job Board</h2>
+              <p>Opportunities matched to your profile &amp; skills.</p>
+            </div>
+            <div class="filter-chips" id="jobFilters">
+              <button class="chip-filter active" data-filter="all">All</button>
+              <button class="chip-filter" data-filter="fulltime">Full-time</button>
+              <button class="chip-filter" data-filter="internship">Internship</button>
+              <button class="chip-filter" data-filter="remote">Remote</button>
+            </div>
+          </section>
+          <div class="card-grid-3" id="jobBoard">
+            <article class="card job-tile pop" style="--d:.1s" data-type="fulltime remote">
+              <div class="career-top">
+                <div class="career-logo g">G</div>
+                <span class="match">94% match</span>
+              </div>
+              <h3>Senior UX Designer</h3>
+              <p class="job-loc">Google · Remote · Full-time</p>
+              <div class="job-tile-foot"><span class="job-salary dark">$72–96k/yr</span><a href="#" class="btn-outline sm" data-action="apply">Apply</a></div>
+            </article>
+            <article class="card job-tile pop" style="--d:.2s" data-type="internship">
+              <div class="career-top">
+                <div class="career-logo in">F</div>
+                <span class="match">88% match</span>
+              </div>
+              <h3>Product Analyst Intern</h3>
+              <p class="job-loc">Freshworks · Bengaluru · Internship</p>
+              <div class="job-tile-foot"><span class="job-salary dark">$18–25k/mo</span><a href="#" class="btn-outline sm" data-action="apply">Apply</a></div>
+            </article>
+            <article class="card job-tile pop" style="--d:.3s" data-type="fulltime remote">
+              <div class="career-top">
+                <div class="career-logo c3">Z</div>
+                <span class="match">81% match</span>
+              </div>
+              <h3>Front-end Developer</h3>
+              <p class="job-loc">Zomato · Remote · Full-time</p>
+              <div class="job-tile-foot"><span class="job-salary dark">$70–90k/yr</span><a href="#" class="btn-outline sm" data-action="apply">Apply</a></div>
+            </article>
+            <article class="card job-tile pop" style="--d:.4s" data-type="internship remote">
+              <div class="career-top">
+                <div class="career-logo c5">T</div>
+                <span class="match">72% match</span>
+              </div>
+              <h3>Data Analyst Intern</h3>
+              <p class="job-loc">Zerodha · Remote · Internship</p>
+              <div class="job-tile-foot"><span class="job-salary dark">$15–20k/mo</span><a href="#" class="btn-outline sm" data-action="apply">Apply</a></div>
+            </article>
+            <article class="card job-tile pop" style="--d:.5s" data-type="fulltime">
+              <div class="career-top">
+                <div class="career-logo c2">S</div>
+                <span class="match">76% match</span>
+              </div>
+              <h3>UI Designer</h3>
+              <p class="job-loc">Swiggy · Mumbai · Full-time</p>
+              <div class="job-tile-foot"><span class="job-salary dark">$60–80k/yr</span><a href="#" class="btn-outline sm" data-action="apply">Apply</a></div>
+            </article>
+            <article class="card job-tile pop" style="--d:.6s" data-type="internship remote">
+              <div class="career-top">
+                <div class="career-logo c6">C</div>
+                <span class="match">64% match</span>
+              </div>
+              <h3>Product Management Intern</h3>
+              <p class="job-loc">CRED · Remote · Internship</p>
+              <div class="job-tile-foot"><span class="job-salary dark">$20–30k/mo</span><a href="#" class="btn-outline sm" data-action="apply">Apply</a></div>
+            </article>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== VIEW: LEARNING ==================== -->
+      <div class="content view" id="view-learning">
+        <div class="col-main">
+          <section class="explore-head pop">
+            <div>
+              <h2>Learning</h2>
+              <p>Your personalized roadmap — Month 2 of 4 toward <strong>UX Designer</strong>.</p>
+            </div>
+            <a href="#" class="btn-outline" data-action="courses">Browse all courses</a>
+          </section>
+
+          <div class="card roadmap-card pop" style="--d:.1s">
+            <h3>🗺️ My Roadmap</h3>
+            <div class="roadmap-steps">
+              <div class="rs done"><span class="rs-dot">✓</span><div><b>Month 1</b><p>Design fundamentals</p></div></div>
+              <div class="rs active"><span class="rs-dot">2</span><div><b>Month 2</b><p>Figma + portfolio project</p></div><span class="rs-badge">In progress</span></div>
+              <div class="rs"><span class="rs-dot">3</span><div><b>Month 3</b><p>Team hackathon project</p></div></div>
+              <div class="rs"><span class="rs-dot">4</span><div><b>Month 4</b><p>Internship applications</p></div></div>
+            </div>
+          </div>
+
+          <div class="card-grid-3">
+            <article class="card enroll-card pop" style="--d:.2s">
+              <div class="lesson"><div class="lesson-icon"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.2 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg></div>
+                <div class="lesson-info"><h4>UX Design</h4><p>Real-world project-based learning</p>
+                  <div class="bar slim"><div class="bar-fill green" style="--w:62%"></div></div>
+                  <div class="lesson-meta"><span>12 of 20</span><span>62%</span></div></div>
+              </div>
+              <a href="#" class="btn-dark full" data-action="join">Continue</a>
+            </article>
+            <article class="card enroll-card pop" style="--d:.3s">
+              <div class="lesson"><div class="lesson-icon purple"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V4H6.5A2.5 2.5 0 0 0 4 6.5z"/></svg></div>
+                <div class="lesson-info"><h4>User Research</h4><p>Interview &amp; survey methods</p>
+                  <div class="bar slim"><div class="bar-fill purple" style="--w:40%"></div></div>
+                  <div class="lesson-meta"><span>8 of 22</span><span>40%</span></div></div>
+              </div>
+              <a href="#" class="btn-dark full" data-action="join">Continue</a>
+            </article>
+            <article class="card enroll-card pop" style="--d:.4s">
+              <div class="lesson"><div class="lesson-icon yellow"><svg viewBox="0 0 24 24"><path d="M8 6l-6 6 6 6M16 6l6 6-6 6"/></svg></div>
+                <div class="lesson-info"><h4>Python for Data</h4><p>Analytics basics</p>
+                  <div class="bar slim"><div class="bar-fill yellow" style="--w:15%"></div></div>
+                  <div class="lesson-meta"><span>3 of 18</span><span>15%</span></div></div>
+              </div>
+              <a href="#" class="btn-dark full" data-action="join">Continue</a>
+            </article>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== VIEW: NETWORKING ==================== -->
+      <div class="content view" id="view-network">
+        <div class="col-main">
+          <section class="explore-head pop">
+            <div>
+              <h2>Networking</h2>
+              <p>Mentors and peers matched to your <strong>UX / Product</strong> goals.</p>
+            </div>
+            <a href="#" class="btn-outline" data-action="invite">+ Invite</a>
+          </section>
+          <div class="card-grid-3" id="networkGrid">
+            <article class="card person-card pop" style="--d:.1s">
+              <div class="person-top">
+                <span class="stack-avatar big a">P</span>
+                <span class="person-tag mentor">Mentor</span>
+              </div>
+              <h3>Priya Nair</h3>
+              <p class="person-role">Senior UX Lead · Google</p>
+              <p class="person-bio">"Happy to review your portfolio — DMs open for Rojgar students."</p>
+              <a href="#" class="btn-primary full" data-action="connect">Connect</a>
+            </article>
+            <article class="card person-card pop" style="--d:.2s">
+              <div class="person-top">
+                <span class="stack-avatar big b">K</span>
+                <span class="person-tag peer">Peer</span>
+              </div>
+              <h3>Kabir Shah</h3>
+              <p class="person-role">Product Analyst · 2nd year</p>
+              <p class="person-bio">"Prepping for the same PM internships — want a study buddy?"</p>
+              <a href="#" class="btn-outline full" data-action="connect">Connect</a>
+            </article>
+            <article class="card person-card pop" style="--d:.3s">
+              <div class="person-top">
+                <span class="stack-avatar big c">M</span>
+                <span class="person-tag mentor">Mentor</span>
+              </div>
+              <h3>Meera Iyer</h3>
+              <p class="person-role">Design Manager · Flipkart</p>
+              <p class="person-bio">"Monthly portfolio review calls — next slot this Friday."</p>
+              <a href="#" class="btn-primary full" data-action="connect">Connect</a>
+            </article>
+            <article class="card person-card pop" style="--d:.4s">
+              <div class="person-top">
+                <span class="stack-avatar big d">A</span>
+                <span class="person-tag peer">Peer</span>
+              </div>
+              <h3>Arjun Mehta</h3>
+              <p class="person-role">Frontend Dev · Freelancer</p>
+              <p class="person-bio">"Building a design-to-code community, join us!"</p>
+              <a href="#" class="btn-outline full" data-action="connect">Connect</a>
+            </article>
+            <article class="card person-card pop" style="--d:.5s">
+              <div class="person-top">
+                <span class="stack-avatar big e">S</span>
+                <span class="person-tag mentor">Mentor</span>
+              </div>
+              <h3>Sana Sheikh</h3>
+              <p class="person-role">UX Researcher · Swiggy</p>
+              <p class="person-bio">"Research mentorship for freshers — first session free."</p>
+              <a href="#" class="btn-primary full" data-action="connect">Connect</a>
+            </article>
+            <article class="card person-card pop" style="--d:.6s">
+              <div class="person-top">
+                <span class="stack-avatar big f">R</span>
+                <span class="person-tag peer">Peer</span>
+              </div>
+              <h3>Rohan Verma</h3>
+              <p class="person-role">Data Analyst · 3rd year</p>
+              <p class="person-bio">"Just closed 3 internship offers — happy to share my prep plan."</p>
+              <a href="#" class="btn-outline full" data-action="connect">Connect</a>
+            </article>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== VIEW: CHAT ==================== -->
+      <div class="content view" id="view-chat">
+        <div class="col-main">
+          <div class="card chat-card pop" style="--d:.1s" id="chatCard">
+            <div class="chat-head">
+              <div class="chat-user">
+                <span class="stack-avatar big a">AI</span>
+                <div>
+                  <h3>Rojgar Assistant</h3>
+                  <span class="chat-status">● Online — replies instantly</span>
+                </div>
+              </div>
+              <span class="offer-tag">AI</span>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+              <div class="msg bot">
+                <span class="msg-avatar">AI</span>
+                <div class="msg-bubble">Hi Aarav! 👋 I'm your career navigator. Ask me about careers, skills, or opportunities.</div>
+              </div>
+              <div class="msg bot">
+                <span class="msg-avatar">AI</span>
+                <div class="msg-bubble">Based on your profile, <b>UX Designer</b> is a 94% match. Want me to build your roadmap?</div>
+              </div>
+            </div>
+
+            <div class="chat-suggestions" id="chatSuggestions">
+              <button data-q="Build my roadmap">Build my roadmap</button>
+              <button data-q="Find internships for me">Find internships</button>
+              <button data-q="Review my skills">Review my skills</button>
+            </div>
+
+            <form class="chat-input" id="chatForm">
+              <input type="text" id="chatText" placeholder="Type a message…" autocomplete="off" />
+              <button type="submit" class="send-btn" aria-label="Send">
+                <svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============ AI ASSISTANT PANEL ============ -->
+  <div class="ai-overlay" id="aiOverlay"></div>
+  <div class="ai-panel" id="aiPanel">
+    <div class="ai-panel-head">
+      <div class="ai-panel-title">
+        <span class="ai-spark">✦</span>
+        <div>
+          <h3>AI Assistant</h3>
+          <span>Career navigator · online</span>
+        </div>
+      </div>
+      <button class="round-btn" id="aiClose" aria-label="Close">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="ai-panel-messages" id="aiMessages">
+      <div class="msg bot"><span class="msg-avatar">AI</span><div class="msg-bubble">Hello! I can help you explore careers, plan skills, and find opportunities. What would you like to do?</div></div>
+    </div>
+    <div class="ai-panel-input">
+      <input type="text" id="aiText" placeholder="Ask about careers, skills, jobs…" autocomplete="off" />
+      <button class="send-btn" id="aiSend" aria-label="Send">
+        <svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ============ NOTIFICATIONS DROPDOWN ============ -->
+  <div class="drop-menu notif-drop" id="notifDrop">
+    <div class="drop-title"><strong>Notifications</strong><a href="#" data-action="markread">Mark all read</a></div>
+    <a href="#" class="notif-item" data-action="job">
+      <span class="notif-ico green">💼</span>
+      <div><b>New job match!</b><p>Senior UX Designer at Google — 94% match</p><span class="notif-time">2m ago</span></div>
+    </a>
+    <a href="#" class="notif-item" data-action="lesson">
+      <span class="notif-ico purple">📚</span>
+      <div><b>Lesson starting soon</b><p>UX Design · Month 2 continues at 4 PM</p><span class="notif-time">1h ago</span></div>
+    </a>
+    <a href="#" class="notif-item" data-action="community">
+      <span class="notif-ico yellow">🎉</span>
+      <div><b>Milestone reached</b><p>Your community crossed 1350 members!</p><span class="notif-time">3h ago</span></div>
+    </a>
+    <a href="#" class="notif-item" data-action="scholarship">
+      <span class="notif-ico blue">🎓</span>
+      <div><b>Scholarship deadline</b><p>Apply before June 24 — you're eligible</p><span class="notif-time">5h ago</span></div>
+    </a>
+  </div>
+
+  <!-- ============ ONBOARDING (profile setup) ============ -->
+  <div class="modal-overlay" id="onboardOverlay">
+    <div class="modal onboard-modal">
+      <div class="onboard-head">
+        <span class="logo-mark">R</span>
+        <div>
+          <h3>Welcome to Rojgar AI</h3>
+          <p id="onboardSub">Set up your profile in 10 seconds — everything below is editable later.</p>
+        </div>
+      </div>
+      <form id="onboardForm">
+        <label>Your name
+          <input type="text" id="obName" placeholder="e.g. Aarav Sharma" required maxlength="30" />
+        </label>
+        <label>Interests <small>(comma separated)</small>
+          <input type="text" id="obInterests" placeholder="Design, AI" required />
+        </label>
+        <label>Hobbies
+          <input type="text" id="obHobbies" placeholder="Sketching, gaming" required />
+        </label>
+        <label>Current skills <small>(comma separated)</small>
+          <input type="text" id="obSkills" placeholder="Basic Python" required />
+        </label>
+        <label>Career goal
+          <select id="obGoal" required>
+            <option value="">Select your goal…</option>
+            <option>UX / Product role</option>
+            <option>Data / Analytics role</option>
+            <option>Engineering role</option>
+            <option>Still exploring</option>
+          </select>
+        </label>
+        <div class="onboard-actions">
+          <button type="button" class="btn-outline" id="obSkip">Use demo data</button>
+          <button type="submit" class="btn-primary">Build my dashboard →</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============ MODAL ============ -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modalBox" role="dialog" aria-modal="true">
+      <button class="round-btn modal-close" id="modalClose" aria-label="Close">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <!-- ============ TOASTS ============ -->
+  <div class="toast-wrap" id="toastWrap"></div>
+
+  <!-- Mobile sidebar overlay -->
+  <div class="overlay" id="overlay"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
